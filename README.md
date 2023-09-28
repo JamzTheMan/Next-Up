@@ -12,8 +12,8 @@ Do you ever run large combats and take 5 seconds each round to find the currentl
 To install a module, follow these instructions:
 
 1. Start FVTT and browse to the Game Modules tab in the Configuration and Setup menu
-2. Select the 'Install Module' button and enter the following URL: https://github.com/gregpola/Next-Up/releases/latest/download/module.json
-3. Click Install and wait for installation to complete 
+2. Select the 'Install Module' button and enter the following URL: https://github.com/JamzTheMan/Next-Up/releases/latest/download/module.json
+3. Click Install and wait for installation to complete
 
 ## Well Next Up is for you!
 
