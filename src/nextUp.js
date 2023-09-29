@@ -14,7 +14,7 @@ Hooks.on('init', () => {
         config: true,
     });
 
-    game.settings.register("Next-Up", "combatFocusPostion", {
+    game.settings.register("Next-Up", "combatFocusPosition", {
         name: game.i18n.localize('NEXTUP.SheetPosition'),
         hint: game.i18n.localize('NEXTUP.SheetPositionHint'),
         scope: 'client',
@@ -29,6 +29,16 @@ Hooks.on('init', () => {
         default: "0",
         config: true,
     });
+
+    game.settings.register("Next-Up", "combatFocusPositionOffset", {
+        name: game.i18n.localize('NEXTUP.SheetPositionOffset'),
+        hint: game.i18n.localize('NEXTUP.SheetPositionOffsetHint'),
+        scope: 'client',
+        type: String,
+        default: '{"x": -65, "y": 65}',
+        config: true,
+    });
+
     game.settings.register("Next-Up", "combatFocusType", {
         name: game.i18n.localize('NEXTUP.OpenActorType'),
         hint: game.i18n.localize('NEXTUP.OpenActorTypeHint'),
@@ -389,7 +399,7 @@ class NextUP {
         if (!currentToken) return;
 
         const combatFocusEnable = game.settings.get("Next-Up", "combatFocusEnable");
-        const combatFocusPostion = game.settings.get('Next-Up', 'combatFocusPostion');
+        const combatFocusPosition = game.settings.get('Next-Up', 'combatFocusPosition');
         const closeWhich = game.settings.get('Next-Up', 'closewhich');
         const combatFocusType = game.settings.get('Next-Up', 'combatFocusType');
         const autoControl = game.settings.get('Next-Up', 'controlOption');
@@ -432,18 +442,25 @@ class NextUP {
             if (combatFocusEnable) {
                 if (currentSheet.length === 0)
                     Hooks.once("renderActorSheet", async (sheet) => {
-                        let rightPos = window.innerWidth - sheet.position.width - 310;
-                        let topPos = window.innerHeight - sheet.position.height - 80
+                        const combatFocusPositionOffset = JSON.parse(game.settings.get('Next-Up', 'combatFocusPositionOffset'));
+
+                        const sheetOffsetX = combatFocusPositionOffset.x;
+                        const sheetOffsetY = combatFocusPositionOffset.y;
+                        const effectsPanelPos = $("#ui-right").offset().left;
+
+                        let rightPos = effectsPanelPos - sheet.position.width;
+                        let topPos = window.innerHeight - sheet.position.height - 80;
                         let sheetPinned = sheet.pinned === true ? true : false;
-                        switch (combatFocusPostion) {
+
+                        switch (combatFocusPosition) {
                             case "0": break;
-                            case "1": if (!sheetPinned) await sheet.setPosition({ left: 107, top: 46 });
+                            case "1": if (!sheetPinned) await sheet.setPosition({ left: 107 + sheetOffsetX, top: 46 + sheetOffsetY });
                                 break;
-                            case "2": if (!sheetPinned) await sheet.setPosition({ left: rightPos, top: 46 });
+                            case "2": if (!sheetPinned) await sheet.setPosition({ left: rightPos + sheetOffsetX, top: 46 + sheetOffsetY });
                                 break;
-                            case "3": if (!sheetPinned) await sheet.setPosition({ left: 107, top: topPos });
+                            case "3": if (!sheetPinned) await sheet.setPosition({ left: 107 + sheetOffsetX, top: topPos + sheetOffsetY });
                                 break;
-                            case "4": if (!sheetPinned) await sheet.setPosition({ left: rightPos, top: topPos });
+                            case "4": if (!sheetPinned) await sheet.setPosition({ left: rightPos + sheetOffsetX, top: topPos + sheetOffsetY });
                                 break;
                         }
                         if (game.settings.get("Next-Up", "popout")) {

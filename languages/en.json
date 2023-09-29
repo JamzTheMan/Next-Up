@@ -10,6 +10,9 @@
   "NEXTUP.SHEET.BottomLeft": "Bottom Left",
   "NEXTUP.SHEET.BottomRight": "Bottom Right",
 
+  "NEXTUP.SheetPositionOffset": "An amount to offset the sheet",
+  "NEXTUP.SheetPositionOffsetHint": "Offset the sheet from the selected position in the x and y direction (in pixels)",
+
   "NEXTUP.OpenActorType": "Open Sheets: Actor Type Filter",
   "NEXTUP.OpenActorTypeHint": "Which actor types should be automatically opened",
   "NEXTUP.OPENACTORTYPE.All": "All",
